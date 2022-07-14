@@ -113,7 +113,7 @@ const getAllRecipes = async (req, res) => {
         const infoDB = await recipesDB();
         const infoAPI = await recipesAPI();
         const allInfo = infoDB.concat(infoAPI)
-        return allInfo
+        return await res.status(200).json(allInfo)
       }
 
     } catch (error) {
@@ -169,7 +169,7 @@ const recipeDetail = async (req, res) => {
         } else if(regexExp.test(id)) {
             let searchID = await recipesDB();
             let searchFinal = await searchID.find(s => s.id === id)
-            return await res.send(searchFinal)
+            return await res.json(searchFinal)
         } else {
             return res.status(404).send(`Recipe ${id} not found`)
         }
@@ -214,7 +214,7 @@ const createRecipe = async (req, res) => {
         });
         await newRecipe.addDiet(dietDb);
 
-        return res.status(200).send(newRecipe)
+        return res.status(200).json(newRecipe)
 }
 
 module.exports = {
