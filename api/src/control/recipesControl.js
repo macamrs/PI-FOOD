@@ -67,78 +67,78 @@ const recipesDB = async () => {
     }
 }
 
-// const getAllRecipes = async (req, res) => {
-//     const { name } = req.query
-
-//     try {
-//       if (name) {
-//         let { data } = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${name}&apiKey=${KEY}&addRecipeInformation=true`)
-
-//         let recipeData = data.results.map((r) => {
-//           return {
-//                 id: r.id,
-//                 vegetarian: r.vegetarian,
-//                 vegan: r.vegan,
-//                 glutenFree: r.glutenFree,
-//                 image: r.image,
-//                 name:  r.title,
-//                 health_score: r.healthScore,
-//                 summary: r.summary,
-//                 diets: r.diets,
-//                 steps: r.analyzedInstructions.map(s => s.steps)
-//           }
-//         });
-
-//         let recipeDB = await Recipe.findAll({
-//             where:{
-//                 name:{
-//                     [Op.iLike]: `%${name}%`
-//                 },
-//             },
-//             include:{
-//                 model: Diet,
-//                 attributes: ['name'],
-//                 through:{
-//                     attributes:[],
-//                 }
-//             }
-//         });
-
-//         let recipesByName = recipeDB.concat(recipeData)
-
-//         if(recipesByName.length >= 1) return res.send(recipesByName);
-//         else return res.status(400).send('Recipe not found')
-
-//       } else {
-//         const infoDB = await recipesDB();
-//         const infoAPI = await recipesAPI();
-//         const allInfo = infoDB.concat(infoAPI)
-//         return res.status(200).send(allInfo)
-//       }
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
 const getAllRecipes = async (req, res) => {
     const { name } = req.query
 
-    const infoDB = await recipesDB();
-    const infoAPI = await recipesAPI();
-    const allInfo = infoDB.concat(infoAPI) // [...infoDB, ...infoAPI] tambien funciona
+    try {
+      if (name) {
+        let { data } = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${name}&apiKey=${KEY}&addRecipeInformation=true`)
 
-    if(name) {
-        let nameFilter = allInfo.filter(n => n.name.toLowerCase().includes(name.toLowerCase()));
-        if(nameFilter.length >= 1) {
-            return res.status(200).send(nameFilter)
-        } else {
-            res.status(400).send('Recipe not found')
-        }
-    } else {
-        return res.send(allInfo)
+        let recipeData = data.results.map((r) => {
+          return {
+                id: r.id,
+                vegetarian: r.vegetarian,
+                vegan: r.vegan,
+                glutenFree: r.glutenFree,
+                image: r.image,
+                name:  r.title,
+                health_score: r.healthScore,
+                summary: r.summary,
+                diets: r.diets,
+                steps: r.analyzedInstructions.map(s => s.steps)
+          }
+        });
+
+        let recipeDB = await Recipe.findAll({
+            where:{
+                name:{
+                    [Op.iLike]: `%${name}%`
+                },
+            },
+            include:{
+                model: Diet,
+                attributes: ['name'],
+                through:{
+                    attributes:[],
+                }
+            }
+        });
+
+        let recipesByName = recipeDB.concat(recipeData)
+
+        if(recipesByName.length >= 1) return res.send(recipesByName);
+        else return res.status(400).send('Recipe not found')
+
+      } else {
+        const infoDB = await recipesDB();
+        const infoAPI = await recipesAPI();
+        const allInfo = infoDB.concat(infoAPI)
+        return res.status(200).send(allInfo)
+      }
+
+    } catch (error) {
+        console.log(error)
     }
 }
+
+// const getAllRecipes = async (req, res) => {
+//     const { name } = req.query
+
+//     const infoDB = await recipesDB();
+//     const infoAPI = await recipesAPI();
+//     const allInfo = infoDB.concat(infoAPI) // [...infoDB, ...infoAPI] tambien funciona
+
+//     if(name) {
+//         let nameFilter = allInfo.filter(n => n.name.toLowerCase().includes(name.toLowerCase()));
+//         if(nameFilter.length >= 1) {
+//             return res.status(200).send(nameFilter)
+//         } else {
+//             res.status(400).send('Recipe not found')
+//         }
+//     } else {
+//         return res.send(allInfo)
+//     }
+// }
 
 const recipeDetail = async (req, res) => {
     const { id } = req.params
