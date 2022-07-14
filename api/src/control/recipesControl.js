@@ -106,14 +106,14 @@ const getAllRecipes = async (req, res) => {
 
         let recipesByName = recipeDB.concat(recipeData)
 
-        if(recipesByName.length >= 1) return res.send(recipesByName);
+        if(recipesByName.length >= 1) return await res.send(recipesByName);
         else return res.status(400).send('Recipe not found')
 
       } else {
         const infoDB = await recipesDB();
         const infoAPI = await recipesAPI();
         const allInfo = infoDB.concat(infoAPI)
-        return res.status(200).send(allInfo)
+        return await res.status(200).send(allInfo)
       }
 
     } catch (error) {
@@ -169,7 +169,7 @@ const recipeDetail = async (req, res) => {
         } else if(regexExp.test(id)) {
             let searchID = await recipesDB();
             let searchFinal = await searchID.find(s => s.id === id)
-            return res.send(searchFinal)
+            return await res.send(searchFinal)
         } else {
             return res.status(404).send(`Recipe ${id} not found`)
         }
