@@ -14,7 +14,7 @@ export const FILTER_BTNS = 'FILTER_BTNS'
 
 export function getAllRecipies() {
     return async function(dispatch) {
-        return await axios.get('http://localhost:3001/recipes')
+        return await axios.get('/recipes')
         .then(info => dispatch({
             type: GET_ALL_RECIPES,
             payload: info.data
@@ -28,7 +28,7 @@ export function getAllRecipies() {
 export function recipeID(id) {
     console.log(id)
     return async function(dispatch) {
-        return await axios.get(`http://localhost:3001/recipes/${id}`)
+        return await axios.get(`/recipes/${id}`)
         .then(detail => dispatch({
             type: GET_DETAILS,
             payload: detail.data
@@ -46,7 +46,7 @@ export function createRecipe(recipe) {
     //     return res;
     // }    
     return async function(dispatch) {
-        return await axios.post('http://localhost:3001/recipes', recipe)
+        return await axios.post('/recipes', recipe)
         .then(res => dispatch({
             type: POST_RECIPE,
             payload: res
@@ -59,7 +59,7 @@ export function createRecipe(recipe) {
 
 export function getDiets() {
     return async function(dispatch) {
-        return await axios.get('http://localhost:3001/diets')
+        return await axios.get('/diets')
         .then(diet => dispatch({
             type: GET_DIETS,
             payload: diet.data
@@ -72,7 +72,7 @@ export function getDiets() {
 
 export function searchRecipe(name) {
     return async function(dispatch) {
-        return await axios.get(`http://localhost:3001/recipes?name=${name}`)
+        return await axios.get(`/recipes?name=${name}`)
         .then((result) => dispatch({
             type: SEARCH_RECIPE,
             payload: result.data
