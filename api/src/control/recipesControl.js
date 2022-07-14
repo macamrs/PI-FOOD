@@ -113,7 +113,7 @@ const getAllRecipes = async (req, res) => {
         const infoDB = await recipesDB();
         const infoAPI = await recipesAPI();
         const allInfo = infoDB.concat(infoAPI)
-        return await res.status(200).send(allInfo)
+        return allInfo
       }
 
     } catch (error) {
