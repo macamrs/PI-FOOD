@@ -29,7 +29,7 @@ const recipesAPI = async () => {
             }
         })
 
-        return recipeInfo;
+        return await recipeInfo;
 
     } catch(error) {
         console.log(error)
@@ -61,7 +61,7 @@ const recipesDB = async () => {
             }
         })
 
-        return recipeDB   
+        return await recipeDB   
     } catch (error) {
         console.log(error)
     }
@@ -163,7 +163,7 @@ const recipeDetail = async (req, res) => {
                     type: data.dishTypes
                 }
                 // console.log(dataID)
-                return res.status(200).send(dataID) 
+                return await res.status(200).send(dataID) 
             }
             
         } else if(regexExp.test(id)) {
