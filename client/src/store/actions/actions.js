@@ -41,10 +41,6 @@ export function recipeID(id) {
 }
 
 export function createRecipe(recipe) {
-    // return async function(dispatch) {
-    //     let res = await axios.post('http://localhost:3001/recipes', payload)
-    //     return res;
-    // }    
     return async function(dispatch) {
         return await axios.post('/recipes', recipe)
         .then(res => dispatch({
