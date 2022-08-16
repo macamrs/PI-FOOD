@@ -38,3 +38,8 @@
 ![pifood4 | width=100px](https://user-images.githubusercontent.com/89083483/184275120-42f8f606-7b0c-469e-bc5d-c0f02db3cf22.JPG)
 ### Create you own recipe
 ![pifood5 | width=100px](https://user-images.githubusercontent.com/89083483/184275122-8de6a164-7a7a-4f1c-b7a9-acd4ae367fc6.JPG)
+
+## Quick Start:
+- Clone repository
+- Run the next commands in project console: npm install -> npm start -> Open http://localhost:3000 in your browser
+
